@@ -1,0 +1,1990 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="0.9.2-alpha1" last-position="493,540" last-zoom="0.65" max-obj-count="86"
+	 default-schema="public" default-owner="postgres">
+<database name="transport_schedule" is-template="false" allow-conns="true">
+	<role name="postgres"/>
+	<tablespace name="pg_default"/>
+</database>
+
+<schema name="public" layer="0" fill-color="#e1e1e1" sql-disabled="true">
+</schema>
+
+<domain name="rm" not-null="true" default-value="0">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<type name="smallint" length="0"/>
+	<constraint name="rm_check_01" type="check">
+		<expression><![CDATA[VALUE = ANY (ARRAY[0, 1])]]></expression>
+	</constraint>
+</domain>
+
+<domain name="coordinates" not-null="false">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<type name="numeric" length="13" precision="10"/>
+</domain>
+
+<table name="route_schedule" layer="0" collapse-mode="2" max-obj-count="4">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="3080" y="140"/>
+	<column name="route_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="departure_list_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="removed" not-null="true" default-value="0">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="uniq_route_schedule_tbl_departure_list_id" type="uq-constr" table="public.route_schedule">
+		<columns names="departure_list_id" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="pk_route_schedule_tbl" type="pk-constr" table="public.route_schedule">
+		<columns names="route_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="track_coordinates" layer="0" collapse-mode="2" max-obj-count="7">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="3860" y="760"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="track_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="order" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="lon" not-null="true">
+		<type name="public.coordinates" length="0"/>
+	</column>
+	<column name="lat" not-null="true">
+		<type name="public.coordinates" length="0"/>
+	</column>
+	<column name="removed" not-null="true" default-value="0">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_track_coordinates_tbl" type="pk-constr" table="public.track_coordinates">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="bus_stops" layer="0" collapse-mode="2" max-obj-count="7">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="3860" y="0"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="bus_stop_list_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="order" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="bus_stop_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="elapsed_time" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="removed" not-null="true" default-value="0">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_bus_stops_tbl" type="pk-constr" table="public.bus_stops">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="route" layer="0" collapse-mode="2" max-obj-count="7">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="3860" y="240"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="bus_stop_list_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="track_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="name" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="day_type" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="removed" not-null="true" default-value="0">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_route_tbl" type="pk-constr" table="public.route">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="driver_brigade" layer="0" collapse-mode="2" max-obj-count="3">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="2340" y="1640"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="description">
+		<type name="text" length="0"/>
+	</column>
+	<column name="removed" not-null="true" default-value="0">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_driver_brigade_tbl" type="pk-constr" table="public.driver_brigade">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="driver_group" layer="0" collapse-mode="2" max-obj-count="4">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1760" y="1700"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="description">
+		<type name="text" length="0"/>
+	</column>
+	<column name="brigade_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="removed" not-null="true" default-value="0">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_driver_group_tbl" type="pk-constr" table="public.driver_group">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="rb_employee_schedule_type" layer="0" collapse-mode="2" max-obj-count="3">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1760" y="1980"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="type_description" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="removed" not-null="true" default-value="0">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_rb_employee_schedule_type_tbl" type="pk-constr" table="public.rb_employee_schedule_type">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="rb_ready_type" layer="0" collapse-mode="2" max-obj-count="3">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1760" y="2160"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="ready_type_description" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="removed" not-null="true" default-value="0">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_rb_ready_type_tbl" type="pk-constr" table="public.rb_ready_type">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="rb_state_type" layer="0" collapse-mode="2" max-obj-count="3">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1760" y="2320"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="state_type_description" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="removed" not-null="true" default-value="0">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_rb_state_type_tbl" type="pk-constr" table="public.rb_state_type">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="bus" layer="0" collapse-mode="2" max-obj-count="10">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1760" y="980"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="bus_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="garage_number_id" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="state_number_id" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="fuel_code_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="odometer_mileage" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="tracker_mileage">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="condition_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="removed" not-null="true" default-value="0">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_bus_tbl" type="pk-constr" table="public.bus">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="rb_bus_make" layer="0" collapse-mode="2" max-obj-count="3">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="3080" y="1240"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="name" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="removed" not-null="true" default-value="0">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_rb_bus_make_tbl" type="pk-constr" table="public.rb_bus_make">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="rb_bus_model" layer="0" collapse-mode="2" max-obj-count="3">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="3080" y="1400"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="name" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="removed" not-null="true" default-value="0">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_rb_bus_model_tbl" type="pk-constr" table="public.rb_bus_model">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="fuel_code" layer="0" collapse-mode="2" max-obj-count="7">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="2340" y="1240"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="fuel_type_id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="winter_consumption" not-null="true">
+		<type name="real" length="0"/>
+	</column>
+	<column name="summer_consumption" not-null="true">
+		<type name="real" length="0"/>
+	</column>
+	<column name="heating_addition" not-null="true">
+		<type name="real" length="0"/>
+	</column>
+	<column name="removed" not-null="true" default-value="0">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_fuel_code_tbl" type="pk-constr" table="public.fuel_code">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="rb_fuel_type" layer="0" collapse-mode="2" max-obj-count="3">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="3080" y="1540"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="fuel_mark" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="removed" not-null="true" default-value="0">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pl_rb_fuel_type_tbl" type="pk-constr" table="public.rb_fuel_type">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="bus_condition" layer="0" collapse-mode="2" max-obj-count="3">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="2340" y="1480"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="name" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="removed" not-null="true" default-value="0">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_bus_condition_tbl" type="pk-constr" table="public.bus_condition">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="driver_schedule" layer="0" collapse-mode="2" max-obj-count="4">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1760" y="260"/>
+	<column name="employee_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="date" not-null="true">
+		<type name="date" length="0"/>
+	</column>
+	<column name="schedule_type_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="removed" not-null="true" default-value="0">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_driver_schedule_tbl" type="pk-constr" table="public.driver_schedule">
+		<columns names="employee_id,date" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="rb_employee_type" layer="0" collapse-mode="2" max-obj-count="3">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="2340" y="820"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="name" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="removed" not-null="true">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_rb_employee_type_tbl" type="pk-constr" table="public.rb_employee_type">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="shift_type" layer="0" collapse-mode="2" pagination="true" attribs-page="0" ext-attribs-page="0" max-obj-count="3">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="3080" y="0"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="type_description" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="removed" not-null="true" default-value="0">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_shift_type_tbl" type="pk-constr" table="public.shift_type">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="shift_schedule" layer="0" collapse-mode="2" max-obj-count="9">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="2340" y="0"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="name" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="shift_type_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="shift_departure_list_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="from_garage_before_flag" not-null="true" default-value="false">
+		<type name="boolean" length="0"/>
+	</column>
+	<column name="to_garage_after_flag" not-null="true" default-value="false">
+		<type name="boolean" length="0"/>
+	</column>
+	<column name="garage_between_flag" not-null="true" default-value="false">
+		<type name="boolean" length="0"/>
+	</column>
+	<column name="removed" not-null="true" default-value="0">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_shift_schedule_id" type="pk-constr" table="public.shift_schedule">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="race" layer="0" collapse-mode="2" max-obj-count="9">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="240" y="1420"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="driver_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="conductor_id">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="bus_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="ts_start" not-null="true">
+		<type name="timestamptz" length="0"/>
+	</column>
+	<column name="done" not-null="true" default-value="false">
+		<type name="boolean" length="0"/>
+	</column>
+	<column name="intsidend_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="removed" not-null="true">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_race_tbl" type="pk-constr" table="public.race">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="shift_departure_moments" layer="0" collapse-mode="2" max-obj-count="6">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Оператор наполняет смену маршрута из списка моментов отправления для данного маршрута. 
+Триггером проверяется приналдежность всех записей одному маршруту при INSERT. На уровне внешнего приложения проверяется group() ==1]]></comment>
+	<position x="2340" y="600"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="shift_departure_list_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="departure_moments_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="order" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="removed" not-null="true" default-value="0">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_shift_departure_moments_tbl" type="pk-constr" table="public.shift_departure_moments">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="rb_bus_stop" layer="0" collapse-mode="2" max-obj-count="6">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="4560" y="60"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="name" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="lon" not-null="true">
+		<type name="public.coordinates" length="0"/>
+	</column>
+	<column name="lat" not-null="true">
+		<type name="public.coordinates" length="0"/>
+	</column>
+	<column name="removed" not-null="true" default-value="0">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_rb_bus_stop_tbl" type="pk-constr" table="public.rb_bus_stop">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="shift_fixed" layer="0" collapse-mode="2" max-obj-count="6">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="240" y="660"/>
+	<column name="shift_schedule_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="date" not-null="true">
+		<type name="date" length="0"/>
+	</column>
+	<column name="driver_id">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="conductor_id">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="removed" not-null="true">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_shift_fixed_tbl" type="pk-constr" table="public.shift_fixed">
+		<columns names="shift_schedule_id,date" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="driver" layer="0" collapse-mode="2" max-obj-count="12">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1000" y="1100"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="employee_data_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="bus_id">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="brigadier_flag" not-null="true" default-value="false">
+		<type name="boolean" length="0"/>
+	</column>
+	<column name="group_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="schedule_type" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="ready_type_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="state_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="ticket_flag" not-null="true" default-value="false">
+		<type name="boolean" length="0"/>
+	</column>
+	<column name="removed" not-null="true">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_driver_tbl_employee_snapshot_id" type="pk-constr" table="public.driver">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="employee_data" layer="0" collapse-mode="2" max-obj-count="8">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1760" y="740"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="personnel_number" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="first_name" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="middle_name" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="last_name" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="employee_type_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="removed" not-null="true">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_employee_data_tbl" type="pk-constr" table="public.employee_data">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="bus_data" layer="0" collapse-mode="2" max-obj-count="7">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="2340" y="980"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="vin" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="year_of_issue" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="make_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="model_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="removed" not-null="true" default-value="0">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_bus_data_tbl" type="pk-constr" table="public.bus_data">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="uniq_bus_data_tbl_vin" type="uq-constr" table="public.bus_data">
+		<columns names="vin" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="track" layer="0" collapse-mode="2" max-obj-count="4">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="4560" y="780"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="lengh" not-null="true">
+		<type name="real" length="0"/>
+	</column>
+	<column name="duration" not-null="true">
+		<type name="real" length="0"/>
+	</column>
+	<column name="removed" not-null="true" default-value="0">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_track_tbl" type="pk-constr" table="public.track">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="departure_moments" layer="0" collapse-mode="2" max-obj-count="6">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="3080" y="720"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="departure_list_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="order" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="start_time" not-null="true">
+		<type name="time with time zone" length="0" with-timezone="true"/>
+	</column>
+	<column name="removed" not-null="true" default-value="0">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_departure_moments_tbl" type="pk-constr" table="public.departure_moments">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="departure_list" layer="0" collapse-mode="2" max-obj-count="3">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="3860" y="980"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="description" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="removed" not-null="true">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_departure_list_tbl" type="pk-constr" table="public.departure_list">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="shift_departure_list" layer="0" collapse-mode="2" max-obj-count="3">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="3080" y="580"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="name" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="removed" not-null="true" default-value="0">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_shift_departure_list_tbl" type="pk-constr" table="public.shift_departure_list">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="conductor" layer="0" collapse-mode="2" max-obj-count="7">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1000" y="1980"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="employee_data_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="schedule_type" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="ready_type_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="state_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="removed" not-null="true" default-value="0">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_conductor_tbl_id" type="pk-constr" table="public.conductor">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="conductor_schedule" layer="0" collapse-mode="2" max-obj-count="4">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1760" y="2480"/>
+	<column name="conductor_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="date" not-null="true">
+		<type name="date" length="0"/>
+	</column>
+	<column name="shift_type_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="removed" not-null="true" default-value="0">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_conductor_schedule_tbl" type="pk-constr" table="public.conductor_schedule">
+		<columns names="conductor_id,date" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="intsident" layer="0" collapse-mode="2" max-obj-count="4">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1000" y="2600"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="description" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="type" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="removed" not-null="true">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_intsident" type="pk-constr" table="public.intsident">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="rb_intsident_type" layer="0" collapse-mode="2" max-obj-count="3">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1700" y="2940"/>
+	<column name="id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="name" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="removed" not-null="true" default-value="0">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_intsident_type_tbl" type="pk-constr" table="public.rb_intsident_type">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<domain name="crtd_at" not-null="true" default-value="now()">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<type name="timestamptz" length="0"/>
+</domain>
+
+<table name="bus_stop_list" layer="0" collapse-mode="2" max-obj-count="3">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="4560" y="260"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="name" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="removed" not-null="true" default-value="0">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_bus_stop_list_tbl" type="pk-constr" table="public.bus_stop_list">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<domain name="ndd_at" not-null="false" default-value="'9999-12-31 23:59:59'">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<type name="timestamptz" length="0"/>
+</domain>
+
+<table name="route_snapshot" layer="0" collapse-mode="2" max-obj-count="9">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="3860" y="480"/>
+	<column name="id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="bus_stop_list_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="track_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="name" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="day_type" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="created_at" not-null="true">
+		<type name="public.crtd_at" length="0"/>
+	</column>
+	<column name="ended_at" not-null="true">
+		<type name="public.ndd_at" length="0"/>
+	</column>
+	<column name="0" not-null="true">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_route_snapsot_tbl" type="pk-constr" table="public.route_snapshot">
+		<columns names="id,created_at" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="route_schedule_snapshot" layer="0" collapse-mode="2" max-obj-count="6">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="3080" y="360"/>
+	<column name="route_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="departure_list_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="created_at" not-null="true">
+		<type name="public.crtd_at" length="0"/>
+	</column>
+	<column name="ended_at" not-null="true">
+		<type name="public.ndd_at" length="0"/>
+	</column>
+	<column name="removed" not-null="true" default-value="0">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_route_schedule_snapshot_tbl" type="pk-constr" table="public.route_schedule_snapshot">
+		<columns names="route_id,created_at" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="shift_schedule_snapshot" layer="0" collapse-mode="2" max-obj-count="12">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="2340" y="280"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="name" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="shift_type_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="shift_departure_list_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="from_garage_before_flag" not-null="true" default-value="false">
+		<type name="boolean" length="0"/>
+	</column>
+	<column name="to_garage_after_flag" not-null="true" default-value="false">
+		<type name="boolean" length="0"/>
+	</column>
+	<column name="garage_between_flag" not-null="true" default-value="false">
+		<type name="boolean" length="0"/>
+	</column>
+	<column name="created_at" not-null="true">
+		<type name="public.crtd_at" length="0"/>
+	</column>
+	<column name="ended_at" not-null="true">
+		<type name="public.ndd_at" length="0"/>
+	</column>
+	<column name="removed" not-null="true" default-value="0">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_shift_schedule_snapsort_tbl" type="pk-constr" table="public.shift_schedule_snapshot">
+		<columns names="id,created_at" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="driver_snapshot" layer="0" collapse-mode="2" max-obj-count="14">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1000" y="1520"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="employee_data_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="bus_id">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="brigadier_flag" not-null="true" default-value="false">
+		<type name="boolean" length="0"/>
+	</column>
+	<column name="group_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="schedule_type" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="ready_type_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="state_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="ticket_flag" not-null="true" default-value="false">
+		<type name="boolean" length="0"/>
+	</column>
+	<column name="created_at" not-null="true">
+		<type name="public.crtd_at" length="0"/>
+	</column>
+	<column name="ended_at" not-null="true">
+		<type name="public.ndd_at" length="0"/>
+	</column>
+	<column name="removed" not-null="true">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_employee_snapshot_tbl" type="pk-constr" table="public.driver_snapshot">
+		<columns names="id,created_at" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="conductor_snapshot" layer="0" collapse-mode="2" max-obj-count="9">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1000" y="2280"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="employee_data_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="schedule_type" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="ready_type_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="state_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="created_at" not-null="true">
+		<type name="public.crtd_at" length="0"/>
+	</column>
+	<column name="ended_at" not-null="true">
+		<type name="public.ndd_at" length="0"/>
+	</column>
+	<column name="removed" not-null="true" default-value="0">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_conductor_snapshot_tbl" type="pk-constr" table="public.conductor_snapshot">
+		<columns names="id,created_at" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="shift_fixed_snapshot" layer="0" collapse-mode="2" max-obj-count="8">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="240" y="900"/>
+	<column name="shift_schedule_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="date" not-null="true">
+		<type name="date" length="0"/>
+	</column>
+	<column name="driver_id">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="conductor_id">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="created_at" not-null="true">
+		<type name="public.crtd_at" length="0"/>
+	</column>
+	<column name="ended_at" not-null="true">
+		<type name="public.ndd_at" length="0"/>
+	</column>
+	<column name="removed" not-null="true">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_fixed_shift_snapshot_tbl" type="pk-constr" table="public.shift_fixed_snapshot">
+		<columns names="shift_schedule_id,date,created_at" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="driver_schedule_snapshot" layer="0" collapse-mode="2" max-obj-count="7">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1760" y="460"/>
+	<column name="employee_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="date" not-null="true">
+		<type name="date" length="0"/>
+	</column>
+	<column name="shift_type_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="created_at" not-null="true">
+		<type name="public.crtd_at" length="0"/>
+	</column>
+	<column name="ended_at" not-null="true">
+		<type name="public.ndd_at" length="0"/>
+	</column>
+	<column name="removed" not-null="true" default-value="0">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_driver_schedule_snapshot_tbl" type="pk-constr" table="public.driver_schedule_snapshot">
+		<columns names="employee_id,date,created_at" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="conductor_schedule_snapshot" layer="0" collapse-mode="2" max-obj-count="7">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1760" y="2700"/>
+	<column name="conductor_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="date" not-null="true">
+		<type name="date" length="0"/>
+	</column>
+	<column name="shift_type_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="created_at" not-null="true">
+		<type name="public.crtd_at" length="0"/>
+	</column>
+	<column name="ended_at" not-null="true">
+		<type name="public.ndd_at" length="0"/>
+	</column>
+	<column name="removed" not-null="true" default-value="0">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_conductor_schedule_snapshot_tbl" type="pk-constr" table="public.conductor_schedule_snapshot">
+		<columns names="conductor_id,date,created_at" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="race_snaphot" layer="0" collapse-mode="2" max-obj-count="12">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="240" y="1780"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="driver_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="conductor_id">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="bus_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="ts_start" not-null="true">
+		<type name="timestamptz" length="0"/>
+	</column>
+	<column name="done" not-null="true" default-value="false">
+		<type name="boolean" length="0"/>
+	</column>
+	<column name="intsidend_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="created_at" not-null="true">
+		<type name="public.crtd_at" length="0"/>
+	</column>
+	<column name="ended_at" not-null="true">
+		<type name="public.ndd_at" length="0"/>
+	</column>
+	<column name="removed" not-null="true">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_race_snaphot_tbl" type="pk-constr" table="public.race_snaphot">
+		<columns names="id,created_at" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="bus_snapshot" layer="0" collapse-mode="2" max-obj-count="13">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1760" y="1300"/>
+	<column name="id" not-null="true">
+		<type name="serial" length="0"/>
+	</column>
+	<column name="bus_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="garage_number_id" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="state_number_id" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="fuel_code_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="odometer_mileage" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="tracker_mileage">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="condition_id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="created_at" not-null="true">
+		<type name="public.crtd_at" length="0"/>
+	</column>
+	<column name="ended_at">
+		<type name="public.ndd_at" length="0"/>
+	</column>
+	<column name="removed" not-null="true" default-value="0">
+		<type name="public.rm" length="0"/>
+	</column>
+	<constraint name="pk_bus_snapshot_tbl" type="pk-constr" table="public.bus_snapshot">
+		<columns names="id,created_at" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<constraint name="fk_route_schedule_tbl_route_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.route" table="public.route_schedule">
+	<columns names="route_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_route_schedule_tbl_departure_list_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.departure_list" table="public.route_schedule">
+	<columns names="departure_list_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_track_coordinates_tbl_track_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.track" table="public.track_coordinates">
+	<columns names="track_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_bus_stops_tbl_bus_stop_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="public.rb_bus_stop" table="public.bus_stops">
+	<columns names="bus_stop_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_bus_stops_tbl_bus_stop_list_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.bus_stop_list" table="public.bus_stops">
+	<columns names="bus_stop_list_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_route_track_tbl_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.track" table="public.route">
+	<columns names="track_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_route_tbl_bus_stop_list_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.bus_stop_list" table="public.route">
+	<columns names="bus_stop_list_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_driver_group_tbl_brigade_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="public.driver_brigade" table="public.driver_group">
+	<columns names="brigade_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_bus_tbl_fuel_code_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="public.fuel_code" table="public.bus">
+	<columns names="fuel_code_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_bus_tbl_condition_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="public.bus_condition" table="public.bus">
+	<columns names="condition_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_bus_tbl_bus_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.bus_data" table="public.bus">
+	<columns names="bus_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_bus_data_tbl_fuel_type" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="public.rb_fuel_type" table="public.fuel_code">
+	<columns names="fuel_type_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_driver_schedule_tbl_employee_id_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="public.driver" table="public.driver_schedule">
+	<columns names="employee_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_driver_schedule_tbl_shift_type_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.shift_type" table="public.driver_schedule">
+	<columns names="schedule_type_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_shift_schedule_tbl_shift_departure_list_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.shift_departure_list" table="public.shift_schedule">
+	<columns names="shift_departure_list_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_shift_schedule_tbl_shift_type_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.shift_type" table="public.shift_schedule">
+	<columns names="shift_type_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_race_tbl_driver_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.driver" table="public.race">
+	<columns names="driver_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_race_tbl_conductor_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.conductor" table="public.race">
+	<columns names="conductor_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_race_tbl_bus_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.bus" table="public.race">
+	<columns names="bus_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_race_tbl_intsident_id_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.intsident" table="public.race">
+	<columns names="intsidend_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_shift_departure_moments_tbl_moments_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.departure_moments" table="public.shift_departure_moments">
+	<columns names="departure_moments_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_shift_departure_moments_tbl_shift_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.shift_departure_list" table="public.shift_departure_moments">
+	<columns names="shift_departure_list_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_fixed_shift_tbl_driver_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="public.driver" table="public.shift_fixed">
+	<columns names="driver_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_fixed_shift_tbl_shift_schedule_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.shift_schedule" table="public.shift_fixed">
+	<columns names="shift_schedule_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_fixed_shift_tbl_conductor" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.conductor" table="public.shift_fixed">
+	<columns names="conductor_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_driver_tbl_group_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="public.driver_group" table="public.driver">
+	<columns names="group_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_driver_tbl_schedule_type" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="public.rb_employee_schedule_type" table="public.driver">
+	<columns names="schedule_type" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_driver_tbl_ready_type_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="public.rb_ready_type" table="public.driver">
+	<columns names="ready_type_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_driver_tbl_state_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="public.rb_state_type" table="public.driver">
+	<columns names="state_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_driver_tbl_employee_data_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.employee_data" table="public.driver">
+	<columns names="employee_data_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_driver_tbl_bus_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.bus" table="public.driver">
+	<columns names="bus_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_employee_data_employee_type_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.rb_employee_type" table="public.employee_data">
+	<columns names="employee_type_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_bus_data_tbl_bus_make" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.rb_bus_make" table="public.bus_data">
+	<columns names="make_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_bus_data_tbl_bus_model" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.rb_bus_model" table="public.bus_data">
+	<columns names="model_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_departure_moments_tbl_departure_list_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.departure_list" table="public.departure_moments">
+	<columns names="departure_list_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_conductor_tbl_employee_data_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.employee_data" table="public.conductor">
+	<columns names="employee_data_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_conductor_tbl_ready_type_id_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.rb_ready_type" table="public.conductor">
+	<columns names="ready_type_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_conductor_tbl_state_id_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.rb_state_type" table="public.conductor">
+	<columns names="state_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_conductor_tbl_schedule_type_id_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.rb_employee_schedule_type" table="public.conductor">
+	<columns names="id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_conductor_schedule_tbl_conductor_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.conductor" table="public.conductor_schedule">
+	<columns names="conductor_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_conductor_schedule_tbl_shift_type_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.shift_type" table="public.conductor_schedule">
+	<columns names="shift_type_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_intsident_tbl_type" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.rb_intsident_type" table="public.intsident">
+	<columns names="type" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_route_snapshot_tbl_bus_stop_list_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.bus_stop_list" table="public.route_snapshot">
+	<columns names="bus_stop_list_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_route_snapshot_tbl_track_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.track" table="public.route_snapshot">
+	<columns names="track_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_route_schedule_snapshot_tbl_route_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.route" table="public.route_schedule_snapshot">
+	<columns names="route_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_route_schedule_snapshot_tbl_departure_list_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.departure_list" table="public.route_schedule_snapshot">
+	<columns names="departure_list_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_shift_schedule_snapshot_tbl_shift_departure_list_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.shift_departure_list" table="public.shift_schedule_snapshot">
+	<columns names="shift_departure_list_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_shift_schedule_snapshot_tbl_shift_type_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.shift_type" table="public.shift_schedule_snapshot">
+	<columns names="shift_type_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_driver_snapshot_tbl_group_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="public.driver_group" table="public.driver_snapshot">
+	<columns names="group_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_driver_snapshot_tbl_schedule_type" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="public.rb_employee_schedule_type" table="public.driver_snapshot">
+	<columns names="schedule_type" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_driver__snapshot_tbl_ready_type_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="public.rb_ready_type" table="public.driver_snapshot">
+	<columns names="ready_type_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_driver_snapshot_tbl_state_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="public.rb_state_type" table="public.driver_snapshot">
+	<columns names="state_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_driver_snapshot_tbl_employee_data_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.employee_data" table="public.driver_snapshot">
+	<columns names="employee_data_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_driver_snapshot_tbl_bus_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.bus" table="public.driver_snapshot">
+	<columns names="bus_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_conductor_snapshot_tbl_employee_data_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.employee_data" table="public.conductor_snapshot">
+	<columns names="employee_data_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_conductor_snapshot_tbl_ready_type_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.rb_ready_type" table="public.conductor_snapshot">
+	<columns names="ready_type_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_conductor_snapshot_tbl_state_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.rb_state_type" table="public.conductor_snapshot">
+	<columns names="state_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_conductor_snapshot_tbl_schedule_type_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.rb_employee_schedule_type" table="public.conductor_snapshot">
+	<columns names="id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_fixed_shift_snapshot_tbl_driver_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="public.driver" table="public.shift_fixed_snapshot">
+	<columns names="driver_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_fixed_shift_snapshot_tbl_shift_schedule_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.shift_schedule" table="public.shift_fixed_snapshot">
+	<columns names="shift_schedule_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_fixed_shift_snapshot_tbl_conductor" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.conductor" table="public.shift_fixed_snapshot">
+	<columns names="conductor_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_driver_schedule_snapshot_tbl_employee_id_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="public.driver" table="public.driver_schedule_snapshot">
+	<columns names="employee_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_driver_schedule_snapshot_tbl_shift_type_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.shift_type" table="public.driver_schedule_snapshot">
+	<columns names="shift_type_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_conductor_schedule_snapshot_tbl_conductor_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.conductor" table="public.conductor_schedule_snapshot">
+	<columns names="conductor_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_conductor_schedule_snapshot_tbl_shift_type_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.shift_type" table="public.conductor_schedule_snapshot">
+	<columns names="shift_type_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_race_snaphot_tbl_driver_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.driver" table="public.race_snaphot">
+	<columns names="driver_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_race_snaphot_tbl_conductor_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.conductor" table="public.race_snaphot">
+	<columns names="conductor_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_race_snaphot_tbl_bus_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.bus" table="public.race_snaphot">
+	<columns names="bus_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_race_snaphot_tbl_intsident_id_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.intsident" table="public.race_snaphot">
+	<columns names="intsidend_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_bus_snapshot_tbl_fuel_code_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="public.fuel_code" table="public.bus_snapshot">
+	<columns names="fuel_code_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_bus_snapshot_tbl_condition_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="public.bus_condition" table="public.bus_snapshot">
+	<columns names="condition_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_bus_snapshot_tbl_bus_id" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.bus_data" table="public.bus_snapshot">
+	<columns names="bus_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<relationship name="rel_bus_stops_list_bus_stop_reference" type="relfk" layer="0"
+	 src-table="public.bus_stops"
+	 dst-table="public.rb_bus_stop" reference-fk="fk_bus_stops_tbl_bus_stop_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_driver_driver_group" type="relfk" layer="0"
+	 src-table="public.driver"
+	 dst-table="public.driver_group" reference-fk="fk_driver_tbl_group_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_driver_driver_schedule_type" type="relfk" layer="0"
+	 src-table="public.driver"
+	 dst-table="public.rb_employee_schedule_type" reference-fk="fk_driver_tbl_schedule_type"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_driver_ready_type" type="relfk" layer="0"
+	 src-table="public.driver"
+	 dst-table="public.rb_ready_type" reference-fk="fk_driver_tbl_ready_type_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_driver_state_type" type="relfk" layer="0"
+	 src-table="public.driver"
+	 dst-table="public.rb_state_type" reference-fk="fk_driver_tbl_state_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_fuel_code_fuel_type" type="relfk" layer="0"
+	 src-table="public.fuel_code"
+	 dst-table="public.rb_fuel_type" reference-fk="fk_bus_data_tbl_fuel_type"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_bus_fuel_code" type="relfk" layer="0"
+	 src-table="public.bus"
+	 dst-table="public.fuel_code" reference-fk="fk_bus_tbl_fuel_code_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_bus_bus_condition" type="relfk" layer="0"
+	 src-table="public.bus"
+	 dst-table="public.bus_condition" reference-fk="fk_bus_tbl_condition_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_schedule_driver" type="relfk" layer="0"
+	 src-table="public.driver_schedule"
+	 dst-table="public.driver" reference-fk="fk_driver_schedule_tbl_employee_id_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_shift_fixed_employee" type="relfk" layer="0"
+	 src-table="public.shift_fixed"
+	 dst-table="public.driver" reference-fk="fk_fixed_shift_tbl_driver_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_driver_group_driver_brigade" type="relfk" layer="0"
+	 src-table="public.driver_group"
+	 dst-table="public.driver_brigade" reference-fk="fk_driver_group_tbl_brigade_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_employee_employee_reference" type="relfk" layer="0"
+	 src-table="public.driver"
+	 dst-table="public.employee_data" reference-fk="fk_driver_tbl_employee_data_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_employee_reference_employee_type" type="relfk" layer="0"
+	 src-table="public.employee_data"
+	 dst-table="public.rb_employee_type" reference-fk="fk_employee_data_employee_type_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_bus_snapshot_bus" type="relfk" layer="0"
+	 src-table="public.bus"
+	 dst-table="public.bus_data" reference-fk="fk_bus_tbl_bus_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_bus_bus_make" type="relfk" layer="0"
+	 src-table="public.bus_data"
+	 dst-table="public.rb_bus_make" reference-fk="fk_bus_data_tbl_bus_make"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_bus_bus_model" type="relfk" layer="0"
+	 src-table="public.bus_data"
+	 dst-table="public.rb_bus_model" reference-fk="fk_bus_data_tbl_bus_model"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_track_coordinates_track_parameters" type="relfk" layer="0"
+	 src-table="public.track_coordinates"
+	 dst-table="public.track" reference-fk="fk_track_coordinates_tbl_track_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_route_data_track" type="relfk" layer="0"
+	 src-table="public.route"
+	 dst-table="public.track" reference-fk="fk_route_track_tbl_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_route_schedule_route" type="relfk" layer="0"
+	 src-table="public.route_schedule"
+	 dst-table="public.route" reference-fk="fk_route_schedule_tbl_route_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_route_schedule_schedule" type="relfk" layer="0"
+	 src-table="public.route_schedule"
+	 dst-table="public.departure_list" reference-fk="fk_route_schedule_tbl_departure_list_id"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="151.882" y="28.2484"/>
+	</label>
+</relationship>
+
+<relationship name="rel_schedule_moments_schedule" type="relfk" layer="0"
+	 src-table="public.departure_moments"
+	 dst-table="public.departure_list" reference-fk="fk_departure_moments_tbl_departure_list_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_shift_departure_list_departure_moments" type="relfk" layer="0"
+	 src-table="public.shift_departure_moments"
+	 dst-table="public.departure_moments" reference-fk="fk_shift_departure_moments_tbl_moments_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_shift_departure_moments_route_shift" type="relfk" layer="0"
+	 src-table="public.shift_departure_moments"
+	 dst-table="public.shift_departure_list" reference-fk="fk_shift_departure_moments_tbl_shift_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_shift_schedule_shift_departure_list" type="relfk" layer="0"
+	 src-table="public.shift_schedule"
+	 dst-table="public.shift_departure_list" reference-fk="fk_shift_schedule_tbl_shift_departure_list_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_shift_schedule_shift_type" type="relfk" layer="0"
+	 src-table="public.shift_schedule"
+	 dst-table="public.shift_type" reference-fk="fk_shift_schedule_tbl_shift_type_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_shift_fixed_shift_schedule" type="relfk" layer="0"
+	 src-table="public.shift_fixed"
+	 dst-table="public.shift_schedule" reference-fk="fk_fixed_shift_tbl_shift_schedule_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_conductor_employee_data" type="relfk" layer="0"
+	 src-table="public.conductor"
+	 dst-table="public.employee_data" reference-fk="fk_conductor_tbl_employee_data_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_conductor_ready_type" type="relfk" layer="0"
+	 src-table="public.conductor"
+	 dst-table="public.rb_ready_type" reference-fk="fk_conductor_tbl_ready_type_id_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_conductor_state_type" type="relfk" layer="0"
+	 src-table="public.conductor"
+	 dst-table="public.rb_state_type" reference-fk="fk_conductor_tbl_state_id_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_shift_fixed_conductor" type="relfk" layer="0"
+	 src-table="public.shift_fixed"
+	 dst-table="public.conductor" reference-fk="fk_fixed_shift_tbl_conductor"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_conductor_employee_schedule_type" type="relfk" layer="0"
+	 src-table="public.conductor"
+	 dst-table="public.rb_employee_schedule_type" reference-fk="fk_conductor_tbl_schedule_type_id_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_driver_bus" type="relfk" layer="0"
+	 src-table="public.driver"
+	 dst-table="public.bus" reference-fk="fk_driver_tbl_bus_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_conductor_schedule_conductor" type="relfk" layer="0"
+	 src-table="public.conductor_schedule"
+	 dst-table="public.conductor" reference-fk="fk_conductor_schedule_tbl_conductor_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_race_driver" type="relfk" layer="0"
+	 src-table="public.race"
+	 dst-table="public.driver" reference-fk="fk_race_tbl_driver_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_race_conductor" type="relfk" layer="0"
+	 src-table="public.race"
+	 dst-table="public.conductor" reference-fk="fk_race_tbl_conductor_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_race_bus" type="relfk" layer="0"
+	 src-table="public.race"
+	 dst-table="public.bus" reference-fk="fk_race_tbl_bus_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_race_intsident" type="relfk" layer="0"
+	 src-table="public.race"
+	 dst-table="public.intsident" reference-fk="fk_race_tbl_intsident_id_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_intsident_intsedent_type" type="relfk" layer="0"
+	 src-table="public.intsident"
+	 dst-table="public.rb_intsident_type" reference-fk="fk_intsident_tbl_type"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_bus_stops_bus_stop_list" type="relfk" layer="0"
+	 src-table="public.bus_stops"
+	 dst-table="public.bus_stop_list" reference-fk="fk_bus_stops_tbl_bus_stop_list_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_route_bus_stop_list" type="relfk" layer="0"
+	 src-table="public.route"
+	 dst-table="public.bus_stop_list" reference-fk="fk_route_tbl_bus_stop_list_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_route_snapshot_bus_stop_list" type="relfk" layer="0"
+	 src-table="public.route_snapshot"
+	 dst-table="public.bus_stop_list" reference-fk="fk_route_snapshot_tbl_bus_stop_list_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_route_snapshot_track" type="relfk" layer="0"
+	 src-table="public.route_snapshot"
+	 dst-table="public.track" reference-fk="fk_route_snapshot_tbl_track_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_route_schedule_snapshot_route" type="relfk" layer="0"
+	 src-table="public.route_schedule_snapshot"
+	 dst-table="public.route" reference-fk="fk_route_schedule_snapshot_tbl_route_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_route_schedule_snapshot_departure_list" type="relfk" layer="0"
+	 src-table="public.route_schedule_snapshot"
+	 dst-table="public.departure_list" reference-fk="fk_route_schedule_snapshot_tbl_departure_list_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_shift_schedule_cp_shift_departure_list" type="relfk" layer="0"
+	 src-table="public.shift_schedule_snapshot"
+	 dst-table="public.shift_departure_list" reference-fk="fk_shift_schedule_snapshot_tbl_shift_departure_list_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_shift_schedule_cp_shift_type" type="relfk" layer="0"
+	 src-table="public.shift_schedule_snapshot"
+	 dst-table="public.shift_type" reference-fk="fk_shift_schedule_snapshot_tbl_shift_type_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_driver_cp_driver_group" type="relfk" layer="0"
+	 src-table="public.driver_snapshot"
+	 dst-table="public.driver_group" reference-fk="fk_driver_snapshot_tbl_group_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_driver_cp_rb_employee_schedule_type" type="relfk" layer="0"
+	 src-table="public.driver_snapshot"
+	 dst-table="public.rb_employee_schedule_type" reference-fk="fk_driver_snapshot_tbl_schedule_type"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_driver_cp_rb_ready_type" type="relfk" layer="0"
+	 src-table="public.driver_snapshot"
+	 dst-table="public.rb_ready_type" reference-fk="fk_driver__snapshot_tbl_ready_type_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_driver_cp_rb_state_type" type="relfk" layer="0"
+	 src-table="public.driver_snapshot"
+	 dst-table="public.rb_state_type" reference-fk="fk_driver_snapshot_tbl_state_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_driver_cp_employee_data" type="relfk" layer="0"
+	 src-table="public.driver_snapshot"
+	 dst-table="public.employee_data" reference-fk="fk_driver_snapshot_tbl_employee_data_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_driver_cp_bus" type="relfk" layer="0"
+	 src-table="public.driver_snapshot"
+	 dst-table="public.bus" reference-fk="fk_driver_snapshot_tbl_bus_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_conductor_cp_employee_data" type="relfk" layer="0"
+	 src-table="public.conductor_snapshot"
+	 dst-table="public.employee_data" reference-fk="fk_conductor_snapshot_tbl_employee_data_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_conductor_cp_rb_ready_type" type="relfk" layer="0"
+	 src-table="public.conductor_snapshot"
+	 dst-table="public.rb_ready_type" reference-fk="fk_conductor_snapshot_tbl_ready_type_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_conductor_cp_rb_state_type" type="relfk" layer="0"
+	 src-table="public.conductor_snapshot"
+	 dst-table="public.rb_state_type" reference-fk="fk_conductor_snapshot_tbl_state_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_conductor_cp_rb_employee_schedule_type" type="relfk" layer="0"
+	 src-table="public.conductor_snapshot"
+	 dst-table="public.rb_employee_schedule_type" reference-fk="fk_conductor_snapshot_tbl_schedule_type_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_shift_fixed_cp_driver" type="relfk" layer="0"
+	 src-table="public.shift_fixed_snapshot"
+	 dst-table="public.driver" reference-fk="fk_fixed_shift_snapshot_tbl_driver_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_shift_fixed_cp_shift_schedule" type="relfk" layer="0"
+	 src-table="public.shift_fixed_snapshot"
+	 dst-table="public.shift_schedule" reference-fk="fk_fixed_shift_snapshot_tbl_shift_schedule_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_shift_fixed_cp_conductor" type="relfk" layer="0"
+	 src-table="public.shift_fixed_snapshot"
+	 dst-table="public.conductor" reference-fk="fk_fixed_shift_snapshot_tbl_conductor"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_driver_schedule_shift_type" type="relfk" layer="0"
+	 src-table="public.driver_schedule"
+	 dst-table="public.shift_type" reference-fk="fk_driver_schedule_tbl_shift_type_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_driver_schedule_cp_driver" type="relfk" layer="0"
+	 src-table="public.driver_schedule_snapshot"
+	 dst-table="public.driver" reference-fk="fk_driver_schedule_snapshot_tbl_employee_id_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_driver_schedule_cp_shift_type" type="relfk" layer="0"
+	 src-table="public.driver_schedule_snapshot"
+	 dst-table="public.shift_type" reference-fk="fk_driver_schedule_snapshot_tbl_shift_type_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_conductor_schedule_shift_type" type="relfk" layer="0"
+	 src-table="public.conductor_schedule"
+	 dst-table="public.shift_type" reference-fk="fk_conductor_schedule_tbl_shift_type_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_conductor_schedule_cp_conductor" type="relfk" layer="0"
+	 src-table="public.conductor_schedule_snapshot"
+	 dst-table="public.conductor" reference-fk="fk_conductor_schedule_snapshot_tbl_conductor_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_conductor_schedule_cp_shift_type" type="relfk" layer="0"
+	 src-table="public.conductor_schedule_snapshot"
+	 dst-table="public.shift_type" reference-fk="fk_conductor_schedule_snapshot_tbl_shift_type_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_race_cp_driver" type="relfk" layer="0"
+	 src-table="public.race_snaphot"
+	 dst-table="public.driver" reference-fk="fk_race_snaphot_tbl_driver_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_race_cp_conductor" type="relfk" layer="0"
+	 src-table="public.race_snaphot"
+	 dst-table="public.conductor" reference-fk="fk_race_snaphot_tbl_conductor_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_race_cp_bus" type="relfk" layer="0"
+	 src-table="public.race_snaphot"
+	 dst-table="public.bus" reference-fk="fk_race_snaphot_tbl_bus_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_race_cp_intsident" type="relfk" layer="0"
+	 src-table="public.race_snaphot"
+	 dst-table="public.intsident" reference-fk="fk_race_snaphot_tbl_intsident_id_fk"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_bus_cp_fuel_code" type="relfk" layer="0"
+	 src-table="public.bus_snapshot"
+	 dst-table="public.fuel_code" reference-fk="fk_bus_snapshot_tbl_fuel_code_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_bus_cp_bus_condition" type="relfk" layer="0"
+	 src-table="public.bus_snapshot"
+	 dst-table="public.bus_condition" reference-fk="fk_bus_snapshot_tbl_condition_id"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_bus_cp_bus_data" type="relfk" layer="0"
+	 src-table="public.bus_snapshot"
+	 dst-table="public.bus_data" reference-fk="fk_bus_snapshot_tbl_bus_id"
+	 src-required="false" dst-required="false"/>
+
+</dbmodel>
