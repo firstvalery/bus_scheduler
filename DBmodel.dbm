@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.2-alpha1" last-position="278,812" last-zoom="0.65" max-obj-count="96"
+<dbmodel pgmodeler-ver="0.9.2-alpha1" last-position="643,0" last-zoom="0.6" max-obj-count="96"
 	 default-schema="public" default-owner="postgres">
 <database name="transport_schedule" is-template="false" allow-conns="true">
 	<role name="postgres"/>
@@ -192,9 +192,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<role name="postgres"/>
 	<position x="3100" y="1020"/>
 	<column name="id" not-null="true">
-		<type name="serial" length="0"/>
+		<type name="smallserial" length="0"/>
 	</column>
-	<column name="ready_type_description" not-null="true">
+	<column name="name" not-null="true">
 		<type name="text" length="0"/>
 	</column>
 	<column name="removed" not-null="true" default-value="0">
@@ -212,7 +212,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="id" not-null="true">
 		<type name="smallserial" length="0"/>
 	</column>
-	<column name="state_type_description" not-null="true">
+	<column name="name" not-null="true">
 		<type name="text" length="0"/>
 	</column>
 	<column name="removed" not-null="true" default-value="0">
@@ -362,13 +362,13 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<position x="1760" y="220"/>
-	<column name="employee_id" not-null="true">
-		<type name="smallint" length="0"/>
+	<column name="driver_id" not-null="true">
+		<type name="integer" length="0"/>
 	</column>
 	<column name="date" not-null="true">
 		<type name="date" length="0"/>
 	</column>
-	<column name="schedule_type_id" not-null="true">
+	<column name="shift_type_id" not-null="true">
 		<type name="smallint" length="0"/>
 	</column>
 	<column name="ready_type_id" not-null="true">
@@ -378,7 +378,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="public.rm" length="0"/>
 	</column>
 	<constraint name="pk_driver_schedule_tbl" type="pk-constr" table="public.driver_schedule">
-		<columns names="employee_id,date" ref-type="src-columns"/>
+		<columns names="driver_id,date" ref-type="src-columns"/>
 	</constraint>
 </table>
 
@@ -400,20 +400,20 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
-<table name="shift_type" layer="0" collapse-mode="2" pagination="true" attribs-page="0" ext-attribs-page="0" max-obj-count="3">
+<table name="rb_shift_type" layer="0" collapse-mode="2" pagination="true" attribs-page="0" ext-attribs-page="0" max-obj-count="3">
 	<schema name="public"/>
 	<role name="postgres"/>
 	<position x="3080" y="0"/>
 	<column name="id" not-null="true">
-		<type name="serial" length="0"/>
+		<type name="smallserial" length="0"/>
 	</column>
-	<column name="type_description" not-null="true">
+	<column name="name" not-null="true">
 		<type name="text" length="0"/>
 	</column>
 	<column name="removed" not-null="true" default-value="0">
 		<type name="public.rm" length="0"/>
 	</column>
-	<constraint name="pk_shift_type_tbl" type="pk-constr" table="public.shift_type">
+	<constraint name="pk_shift_type_tbl" type="pk-constr" table="public.rb_shift_type">
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
 </table>
@@ -561,7 +561,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="driver" layer="0" collapse-mode="2" max-obj-count="12">
 	<schema name="public"/>
 	<role name="postgres"/>
-	<position x="1000" y="1100"/>
+	<position x="1020" y="1000"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -770,7 +770,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<role name="postgres"/>
 	<position x="1760" y="2280"/>
 	<column name="conductor_id" not-null="true">
-		<type name="smallint" length="0"/>
+		<type name="serial" length="0"/>
 	</column>
 	<column name="date" not-null="true">
 		<type name="date" length="0"/>
@@ -1066,8 +1066,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<role name="postgres"/>
 	<position x="1760" y="460"/>
-	<column name="employee_id" not-null="true">
-		<type name="smallint" length="0"/>
+	<column name="driver_id" not-null="true">
+		<type name="integer" length="0"/>
 	</column>
 	<column name="date" not-null="true">
 		<type name="date" length="0"/>
@@ -1088,7 +1088,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="public.rm" length="0"/>
 	</column>
 	<constraint name="pk_driver_schedule_snapshot_tbl" type="pk-constr" table="public.driver_schedule_snapshot">
-		<columns names="employee_id,date,created_at" ref-type="src-columns"/>
+		<columns names="driver_id,date,created_at" ref-type="src-columns"/>
 	</constraint>
 </table>
 
@@ -1097,7 +1097,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<role name="postgres"/>
 	<position x="1760" y="2520"/>
 	<column name="conductor_id" not-null="true">
-		<type name="smallint" length="0"/>
+		<type name="serial" length="0"/>
 	</column>
 	<column name="date" not-null="true">
 		<type name="date" length="0"/>
@@ -1203,7 +1203,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
-<table name="position" layer="0" collapse-mode="2" max-obj-count="3">
+<table name="rb_position" layer="0" collapse-mode="2" max-obj-count="3">
 	<schema name="public"/>
 	<role name="postgres"/>
 	<position x="1760" y="1840"/>
@@ -1216,7 +1216,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="removed" not-null="true" default-value="0">
 		<type name="public.rm" length="0"/>
 	</column>
-	<constraint name="pk_position_tbl" type="pk-constr" table="public.&quot;position&quot;">
+	<constraint name="pk_rb_position_tbl" type="pk-constr" table="public.rb_position">
 		<columns names="id" ref-type="src-columns"/>
 	</constraint>
 </table>
@@ -1341,15 +1341,15 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
-<constraint name="fk_driver_schedule_tbl_employee_id_fk" type="fk-constr" comparison-type="MATCH FULL"
+<constraint name="fk_driver_schedule_tbl_driver_id_fk" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="CASCADE" del-action="CASCADE" ref-table="public.driver" table="public.driver_schedule">
-	<columns names="employee_id" ref-type="src-columns"/>
+	<columns names="driver_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
 <constraint name="fk_driver_schedule_tbl_shift_type_id" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.shift_type" table="public.driver_schedule">
-	<columns names="schedule_type_id" ref-type="src-columns"/>
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.rb_shift_type" table="public.driver_schedule">
+	<columns names="shift_type_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
@@ -1366,7 +1366,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 </constraint>
 
 <constraint name="fk_shift_schedule_tbl_shift_type_id" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.shift_type" table="public.shift_schedule">
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.rb_shift_type" table="public.shift_schedule">
 	<columns names="shift_type_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
@@ -1456,7 +1456,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 </constraint>
 
 <constraint name="fk_driver_tbl_position_id" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.&quot;position&quot;" table="public.driver">
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.rb_position" table="public.driver">
 	<columns names="position_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
@@ -1504,7 +1504,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 </constraint>
 
 <constraint name="fk_conductor_tbl_position_id" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.&quot;position&quot;" table="public.conductor">
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.rb_position" table="public.conductor">
 	<columns names="position_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
@@ -1516,7 +1516,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 </constraint>
 
 <constraint name="fk_conductor_schedule_tbl_shift_type_id" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.shift_type" table="public.conductor_schedule">
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.rb_shift_type" table="public.conductor_schedule">
 	<columns names="shift_type_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
@@ -1564,7 +1564,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 </constraint>
 
 <constraint name="fk_shift_schedule_snapshot_tbl_shift_type_id" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.shift_type" table="public.shift_schedule_snapshot">
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.rb_shift_type" table="public.shift_schedule_snapshot">
 	<columns names="shift_type_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
@@ -1600,7 +1600,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 </constraint>
 
 <constraint name="fk_driver_snapshot_tbl_position_id" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.&quot;position&quot;" table="public.driver_snapshot">
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.rb_position" table="public.driver_snapshot">
 	<columns names="position_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
@@ -1624,7 +1624,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 </constraint>
 
 <constraint name="fk_conductor_snapshot_tbl_position_id" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.&quot;position&quot;" table="public.conductor_snapshot">
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.rb_position" table="public.conductor_snapshot">
 	<columns names="position_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
@@ -1647,14 +1647,14 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
-<constraint name="fk_driver_schedule_snapshot_tbl_employee_id_fk" type="fk-constr" comparison-type="MATCH FULL"
+<constraint name="fk_driver_schedule_snapshot_tbl_driver_id" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="CASCADE" del-action="CASCADE" ref-table="public.driver" table="public.driver_schedule_snapshot">
-	<columns names="employee_id" ref-type="src-columns"/>
+	<columns names="driver_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
 <constraint name="fk_driver_schedule_snapshot_tbl_shift_type_id" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.shift_type" table="public.driver_schedule_snapshot">
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.rb_shift_type" table="public.driver_schedule_snapshot">
 	<columns names="shift_type_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
@@ -1672,7 +1672,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 </constraint>
 
 <constraint name="fk_conductor_schedule_snapshot_tbl_shift_type_id" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.shift_type" table="public.conductor_schedule_snapshot">
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.rb_shift_type" table="public.conductor_schedule_snapshot">
 	<columns names="shift_type_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
@@ -1786,7 +1786,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <relationship name="rel_schedule_driver" type="relfk" layer="0"
 	 src-table="public.driver_schedule"
-	 dst-table="public.driver" reference-fk="fk_driver_schedule_tbl_employee_id_fk"
+	 dst-table="public.driver" reference-fk="fk_driver_schedule_tbl_driver_id_fk"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_shift_fixed_employee" type="relfk" layer="0"
@@ -1870,7 +1870,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <relationship name="rel_shift_schedule_shift_type" type="relfk" layer="0"
 	 src-table="public.shift_schedule"
-	 dst-table="public.shift_type" reference-fk="fk_shift_schedule_tbl_shift_type_id"
+	 dst-table="public.rb_shift_type" reference-fk="fk_shift_schedule_tbl_shift_type_id"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_shift_fixed_shift_schedule" type="relfk" layer="0"
@@ -1970,7 +1970,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <relationship name="rel_shift_schedule_cp_shift_type" type="relfk" layer="0"
 	 src-table="public.shift_schedule_snapshot"
-	 dst-table="public.shift_type" reference-fk="fk_shift_schedule_snapshot_tbl_shift_type_id"
+	 dst-table="public.rb_shift_type" reference-fk="fk_shift_schedule_snapshot_tbl_shift_type_id"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_driver_cp_driver_group" type="relfk" layer="0"
@@ -2030,22 +2030,22 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <relationship name="rel_driver_schedule_shift_type" type="relfk" layer="0"
 	 src-table="public.driver_schedule"
-	 dst-table="public.shift_type" reference-fk="fk_driver_schedule_tbl_shift_type_id"
+	 dst-table="public.rb_shift_type" reference-fk="fk_driver_schedule_tbl_shift_type_id"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_driver_schedule_cp_driver" type="relfk" layer="0"
 	 src-table="public.driver_schedule_snapshot"
-	 dst-table="public.driver" reference-fk="fk_driver_schedule_snapshot_tbl_employee_id_fk"
+	 dst-table="public.driver" reference-fk="fk_driver_schedule_snapshot_tbl_driver_id"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_driver_schedule_cp_shift_type" type="relfk" layer="0"
 	 src-table="public.driver_schedule_snapshot"
-	 dst-table="public.shift_type" reference-fk="fk_driver_schedule_snapshot_tbl_shift_type_id"
+	 dst-table="public.rb_shift_type" reference-fk="fk_driver_schedule_snapshot_tbl_shift_type_id"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_conductor_schedule_shift_type" type="relfk" layer="0"
 	 src-table="public.conductor_schedule"
-	 dst-table="public.shift_type" reference-fk="fk_conductor_schedule_tbl_shift_type_id"
+	 dst-table="public.rb_shift_type" reference-fk="fk_conductor_schedule_tbl_shift_type_id"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_conductor_schedule_cp_conductor" type="relfk" layer="0"
@@ -2055,7 +2055,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <relationship name="rel_conductor_schedule_cp_shift_type" type="relfk" layer="0"
 	 src-table="public.conductor_schedule_snapshot"
-	 dst-table="public.shift_type" reference-fk="fk_conductor_schedule_snapshot_tbl_shift_type_id"
+	 dst-table="public.rb_shift_type" reference-fk="fk_conductor_schedule_snapshot_tbl_shift_type_id"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_race_cp_driver" type="relfk" layer="0"
@@ -2095,22 +2095,22 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <relationship name="rel_driver_position" type="relfk" layer="0"
 	 src-table="public.driver"
-	 dst-table="public.&quot;position&quot;" reference-fk="fk_driver_tbl_position_id"
+	 dst-table="public.rb_position" reference-fk="fk_driver_tbl_position_id"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_driver_snapshot_position" type="relfk" layer="0"
 	 src-table="public.driver_snapshot"
-	 dst-table="public.&quot;position&quot;" reference-fk="fk_driver_snapshot_tbl_position_id"
+	 dst-table="public.rb_position" reference-fk="fk_driver_snapshot_tbl_position_id"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_conductor_position" type="relfk" layer="0"
 	 src-table="public.conductor"
-	 dst-table="public.&quot;position&quot;" reference-fk="fk_conductor_tbl_position_id"
+	 dst-table="public.rb_position" reference-fk="fk_conductor_tbl_position_id"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_conductor_snapshot_position" type="relfk" layer="0"
 	 src-table="public.conductor_snapshot"
-	 dst-table="public.&quot;position&quot;" reference-fk="fk_conductor_snapshot_tbl_position_id"
+	 dst-table="public.rb_position" reference-fk="fk_conductor_snapshot_tbl_position_id"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_driver_schedule_rb_ready_type" type="relfk" layer="0"
